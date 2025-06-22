@@ -2,14 +2,44 @@
 
 # 🚀 Agent間メッセージ送信スクリプト
 
+# tmuxのbase-indexとpane-base-indexを動的に取得
+get_tmux_indices() {
+    local session="$1"
+    local window_index=$(tmux show-options -t "$session" -g base-index 2>/dev/null | awk '{print $2}')
+    local pane_index=$(tmux show-options -t "$session" -g pane-base-index 2>/dev/null | awk '{print $2}')
+
+    # デフォルト値
+    window_index=${window_index:-0}
+    pane_index=${pane_index:-0}
+
+    echo "$window_index $pane_index"
+}
+
 # エージェント→tmuxターゲット マッピング
 get_agent_target() {
     case "$1" in
         "president") echo "president" ;;
-        "boss1") echo "multiagent:0.0" ;;
-        "worker1") echo "multiagent:0.1" ;;
-        "worker2") echo "multiagent:0.2" ;;
-        "worker3") echo "multiagent:0.3" ;;
+        "boss1"|"worker1"|"worker2"|"worker3")
+            # multiagentセッションのindexを動的に取得
+            if tmux has-session -t multiagent 2>/dev/null; then
+                local indices=($(get_tmux_indices multiagent))
+                local window_index=${indices[0]}
+                local pane_index=${indices[1]}
+
+                # window名で取得（base-indexに依存しない）
+                local window_name="agents"
+
+                # pane番号を計算
+                case "$1" in
+                    "boss1") echo "multiagent:$window_name.$((pane_index))" ;;
+                    "worker1") echo "multiagent:$window_name.$((pane_index + 1))" ;;
+                    "worker2") echo "multiagent:$window_name.$((pane_index + 2))" ;;
+                    "worker3") echo "multiagent:$window_name.$((pane_index + 3))" ;;
+                esac
+            else
+                echo ""
+            fi
+            ;;
         *) echo "" ;;
     esac
 }
@@ -40,11 +70,31 @@ EOF
 show_agents() {
     echo "📋 利用可能なエージェント:"
     echo "=========================="
-    echo "  president → president:0     (プロジェクト統括責任者)"
-    echo "  boss1     → multiagent:0.0  (チームリーダー)"
-    echo "  worker1   → multiagent:0.1  (実行担当者A)"
-    echo "  worker2   → multiagent:0.2  (実行担当者B)" 
-    echo "  worker3   → multiagent:0.3  (実行担当者C)"
+
+    # presidentセッション確認
+    if tmux has-session -t president 2>/dev/null; then
+        echo "  president → president       (プロジェクト統括責任者)"
+    else
+        echo "  president → [未起動]        (プロジェクト統括責任者)"
+    fi
+
+    # multiagentセッション確認
+    if tmux has-session -t multiagent 2>/dev/null; then
+        local boss1_target=$(get_agent_target "boss1")
+        local worker1_target=$(get_agent_target "worker1")
+        local worker2_target=$(get_agent_target "worker2")
+        local worker3_target=$(get_agent_target "worker3")
+
+        echo "  boss1     → ${boss1_target:-[エラー]}  (チームリーダー)"
+        echo "  worker1   → ${worker1_target:-[エラー]}  (実行担当者A)"
+        echo "  worker2   → ${worker2_target:-[エラー]}  (実行担当者B)"
+        echo "  worker3   → ${worker3_target:-[エラー]}  (実行担当者C)"
+    else
+        echo "  boss1     → [未起動]        (チームリーダー)"
+        echo "  worker1   → [未起動]        (実行担当者A)"
+        echo "  worker2   → [未起動]        (実行担当者B)"
+        echo "  worker3   → [未起動]        (実行担当者C)"
+    fi
 }
 
 # ログ記録
