@@ -1,0 +1,330 @@
+/* 🎬 異次元通販 ウルトラアニメーションシステム */
+/* 60FPS最適化・GPU加速・滑らか動作保証 */
+
+/* 🚀 基本アニメーション設定 */
+* {
+  box-sizing: border-box;
+}
+
+/* GPU加速基盤 */
+.gpu-accelerated {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* 🔥 超高速フェードイン */
+@keyframes ultraFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.ultra-fade-in {
+  animation: ultraFadeIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, opacity;
+}
+
+/* 🌟 スライドイン効果（左から） */
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(-100px) translateZ(0);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) translateZ(0);
+    opacity: 1;
+  }
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform, opacity;
+}
+
+/* 🌟 スライドイン効果（右から） */
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100px) translateZ(0);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) translateZ(0);
+    opacity: 1;
+  }
+}
+
+.slide-in-right {
+  animation: slideInRight 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform, opacity;
+}
+
+/* 🔥 バウンス効果 */
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.3) translateZ(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05) translateZ(0);
+  }
+  70% {
+    transform: scale(0.9) translateZ(0);
+  }
+  100% {
+    transform: scale(1) translateZ(0);
+    opacity: 1;
+  }
+}
+
+.bounce-in {
+  animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  will-change: transform, opacity;
+}
+
+/* 🚀 ズームイン効果 */
+@keyframes zoomIn {
+  0% {
+    transform: scale(0) translateZ(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateZ(0);
+    opacity: 1;
+  }
+}
+
+.zoom-in {
+  animation: zoomIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, opacity;
+}
+
+/* 🌟 回転フェードイン */
+@keyframes rotateIn {
+  0% {
+    transform: rotate(-180deg) scale(0.5) translateZ(0);
+    opacity: 0;
+  }
+  100% {
+    transform: rotate(0deg) scale(1) translateZ(0);
+    opacity: 1;
+  }
+}
+
+.rotate-in {
+  animation: rotateIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, opacity;
+}
+
+/* 🔥 脈動効果 */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1) translateZ(0);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05) translateZ(0);
+    opacity: 0.8;
+  }
+}
+
+.pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  will-change: transform, opacity;
+}
+
+/* 🌟 シェイク効果 */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0) translateZ(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-10px) translateZ(0);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(10px) translateZ(0);
+  }
+}
+
+.shake {
+  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  will-change: transform;
+}
+
+/* 🚀 フローティング効果 */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) translateZ(0);
+  }
+  50% {
+    transform: translateY(-20px) translateZ(0);
+  }
+}
+
+.float {
+  animation: float 3s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* 🔥 グロー効果 */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(102, 126, 234, 0.8);
+  }
+}
+
+.glow {
+  animation: glow 2s ease-in-out infinite;
+  will-change: box-shadow;
+}
+
+/* 🌟 カードフリップ効果 */
+.flip-container {
+  perspective: 1000px;
+  will-change: transform;
+}
+
+.flipper {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform;
+}
+
+.flip-container:hover .flipper {
+  transform: rotateY(180deg);
+}
+
+.front, .back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.back {
+  transform: rotateY(180deg);
+}
+
+/* 🚀 スケール効果（ホバー用） */
+.scale-hover {
+  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+
+.scale-hover:hover {
+  transform: scale(1.05) translateZ(0);
+}
+
+/* 🔥 遅延アニメーション制御 */
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+
+/* 🌟 継続時間制御 */
+.duration-fast { animation-duration: 0.15s; }
+.duration-normal { animation-duration: 0.3s; }
+.duration-slow { animation-duration: 0.5s; }
+
+/* 🚀 パフォーマンス最適化 */
+.performance-optimized {
+  contain: layout style paint;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* 🔥 レスポンシブアニメーション */
+@media (max-width: 768px) {
+  /* モバイル用アニメーション軽量化 */
+  .ultra-fade-in,
+  .slide-in-left,
+  .slide-in-right,
+  .bounce-in,
+  .zoom-in,
+  .rotate-in {
+    animation-duration: 0.2s;
+  }
+  
+  /* モバイルでのアニメーション簡略化 */
+  .float,
+  .pulse,
+  .glow {
+    animation: none;
+  }
+}
+
+/* 🌟 省電力モード対応 */
+@media (prefers-reduced-motion: reduce) {
+  /* アニメーション無効化 */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 🚀 ダークモード対応 */
+@media (prefers-color-scheme: dark) {
+  .glow {
+    animation: glow-dark 2s ease-in-out infinite;
+  }
+  
+  @keyframes glow-dark {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(118, 75, 162, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 40px rgba(118, 75, 162, 0.8);
+    }
+  }
+}
+
+/* 🔥 ハードウェアアクセラレーション強制 */
+.hardware-accelerated {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  perspective: 1000px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 🌟 アニメーション組み合わせクラス */
+.ultra-entrance {
+  animation: 
+    ultraFadeIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    slideInLeft 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, opacity;
+}
+
+.ultra-highlight {
+  animation:
+    pulse 1s ease-in-out,
+    glow 1s ease-in-out;
+  will-change: transform, box-shadow;
+}
+
+/* 🚀 パフォーマンス保証60FPS */
+@supports (will-change: transform) {
+  .fps-60 {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+}

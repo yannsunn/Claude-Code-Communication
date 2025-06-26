@@ -1,0 +1,56 @@
+{
+  "name": "dimensional-commerce-ultra-sync",
+  "version": "1.0.0",
+  "description": "異次元通販 ウルトラシンクシステム - Vercelデプロイ対応版",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export",
+    "deploy": "vercel --prod",
+    "analyze": "cross-env ANALYZE=true next build",
+    "clean": "rimraf .next dist",
+    "size-check": "bundlesize"
+  },
+  "bundlesize": [
+    {
+      "path": "./dist/main.js",
+      "maxSize": "550KB",
+      "compression": "gzip"
+    },
+    {
+      "path": "./dist/vendor.js",
+      "maxSize": "300KB",
+      "compression": "gzip"
+    }
+  ],
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-lazy-load-image-component": "^1.6.0",
+    "framer-motion": "^10.16.0",
+    "@vercel/analytics": "^1.1.0",
+    "@vercel/speed-insights": "^1.0.0"
+  },
+  "devDependencies": {
+    "@next/bundle-analyzer": "^14.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "cross-env": "^7.0.3",
+    "bundlesize": "^0.18.1",
+    "rimraf": "^5.0.1",
+    "vercel": "^32.0.0"
+  },
+  "keywords": [
+    "dimensional-commerce",
+    "ultra-sync",
+    "bundle-optimization",
+    "tree-shaking",
+    "code-splitting"
+  ],
+  "author": "Worker3 - Bundle Optimization Specialist",
+  "license": "MIT"
+}
