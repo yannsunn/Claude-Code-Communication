@@ -2,6 +2,8 @@
 
 Agent同士がやり取りするtmux環境のデモシステム
 
+**📖 Read this in other languages:** [English](README-en.md)
+
 ## 🎯 デモ概要
 
 PRESIDENT → BOSS → Workers の階層型指示システムを体感できます
